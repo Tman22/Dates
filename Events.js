@@ -30,26 +30,25 @@ const time = ['12am','1am','2am','3am','4am','5am','6am','7am','8am','9am','10am
 class Events extends Component {
   constructor() {
     super();
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(time),
+    };
   }
 
-  handleScroll() {
-    return time.map((e, i) => {
-      return  <View key={i}>
-                <View style={styles.rowContainer}>
-                  <View>
-                    <Text>{time[i]}</Text>
-                  </View>
-                </View>
-                <View style={styles.separator}/>
-              </View>
-    })
-  }
 
   render() {
     return (
-      <ScrollView styles={styles.container} contentContainerStyle={styles.scrollableContentContainerIOS}>
-        {this.handleScroll()}
-      </ScrollView>
+      <ListView dataSource={this.state.dataSource}
+      renderRow={(rowData) => <View key={rowData}>
+                                <View style={styles.rowContainer}>
+                                  <View>
+                                    <Text>{rowData}</Text>
+                                  </View>
+                                </View>
+                                <View style={styles.separator}/>
+                              </View>}
+      />
     );
   }
 
